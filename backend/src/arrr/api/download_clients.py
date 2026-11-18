@@ -1,21 +1,15 @@
-from typing import Annotated, Literal
+from typing import Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel, ConfigDict, HttpUrl
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from arrr.api.deps import SessionDep
 from arrr.clients.base import DownloadClientError
 from arrr.clients.factory import build_client
 from arrr.models import DownloadClientConfig
 from arrr.security import require_api_key
-
-
-def get_session(request: Request):
-    yield from request.app.state.db.session()
-
-
-SessionDep = Annotated[Session, Depends(get_session)]
 
 
 class ClientIn(BaseModel):

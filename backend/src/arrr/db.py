@@ -1,7 +1,7 @@
 from collections.abc import Iterator
 from pathlib import Path
 
-from sqlalchemy import Engine, create_engine
+from sqlalchemy import Engine, create_engine, event
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 
@@ -14,6 +14,11 @@ class Database:
         self.engine: Engine = create_engine(
             f"sqlite:///{path}", connect_args={"check_same_thread": False}
         )
+
+        @event.listens_for(self.engine, "connect")
+        def _enable_foreign_keys(dbapi_conn, _record) -> None:
+            dbapi_conn.execute("PRAGMA foreign_keys=ON")
+
         self._sessions = sessionmaker(self.engine, expire_on_commit=False)
 
     def create_all(self) -> None:
