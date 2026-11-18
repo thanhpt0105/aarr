@@ -1,0 +1,1 @@
+- Inspired from the arr stack (in repo media-stack). I want to build a standalone app that has all of the features in that stack (sonarr, radarr, bazzarr, prolarr, seerr). It will connect to the downloader like qbittorrent or sabnzbd to download the files. List down all the features and create a plan to build this application. I call it arrr for now.
