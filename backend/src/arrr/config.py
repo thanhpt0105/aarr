@@ -9,3 +9,4 @@ class Settings(BaseSettings):
     data_dir: Path = Path("./data")
     host: str = "0.0.0.0"
     port: int = 8686
+    queue_poll_seconds: int = 15  # 0 disables background polling
