@@ -21,10 +21,16 @@ class Database:
 
         self._sessions = sessionmaker(self.engine, expire_on_commit=False)
 
-    def create_all(self) -> None:
-        from arrr import models  # noqa: F401  (registers tables on Base)
+    def migrate(self) -> None:
+        """Upgrade the schema to the latest Alembic revision."""
+        from alembic import command
+        from alembic.config import Config
 
-        Base.metadata.create_all(self.engine)
+        cfg = Config()
+        cfg.set_main_option("script_location", str(Path(__file__).parent / "migrations"))
+        with self.engine.begin() as connection:
+            cfg.attributes["connection"] = connection
+            command.upgrade(cfg, "head")
 
     def session(self) -> Iterator[Session]:
         with self._sessions() as session:

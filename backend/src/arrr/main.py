@@ -18,7 +18,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @asynccontextmanager
     async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-        app.state.db.create_all()
+        app.state.db.migrate()
         scheduler = AsyncIOScheduler()
         if settings.queue_poll_seconds > 0:
             scheduler.add_job(
