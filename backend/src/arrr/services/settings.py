@@ -2,6 +2,10 @@ from arrr.db import Database
 from arrr.models import AppSetting
 from arrr.security import Secrets
 
+TMDB_KEY = "tmdb_api_key"
+TMDB_LANGUAGE = "tmdb_language"
+DEFAULT_LANGUAGE = "en-US"
+
 
 class SettingsStore:
     """Key/value app settings; secret values are encrypted at rest."""
@@ -31,3 +35,11 @@ class SettingsStore:
                 else:
                     row.value, row.is_secret = stored, secret
             session.commit()
+
+
+def tmdb_config(store: SettingsStore, env_key: str | None) -> tuple[str | None, str, str | None]:
+    """Return (api_key, language, key_source); a saved key wins over the environment."""
+    saved = store.get(TMDB_KEY)
+    key = saved or env_key
+    source = "settings" if saved else ("env" if env_key else None)
+    return key, store.get(TMDB_LANGUAGE) or DEFAULT_LANGUAGE, source

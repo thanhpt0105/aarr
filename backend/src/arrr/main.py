@@ -5,7 +5,7 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi import FastAPI
 
 from arrr import __version__
-from arrr.api import download_clients, indexers, path_mappings, queue, search, system
+from arrr.api import download_clients, indexers, metadata, path_mappings, queue, search, system
 from arrr.api import settings as settings_api
 from arrr.config import Settings
 from arrr.db import Database
@@ -46,6 +46,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(system.router)
     app.include_router(download_clients.router)
     app.include_router(indexers.router)
+    app.include_router(metadata.router)
     app.include_router(path_mappings.router)
     app.include_router(queue.router)
     app.include_router(search.router)

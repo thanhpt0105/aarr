@@ -3,12 +3,10 @@ from typing import Literal
 from fastapi import APIRouter, Depends, Request
 from pydantic import BaseModel, Field
 
+from arrr.metadata.models import MetadataError
+from arrr.metadata.tmdb import TmdbClient
 from arrr.security import require_api_key
-from arrr.services.settings import SettingsStore
-
-TMDB_KEY = "tmdb_api_key"
-TMDB_LANGUAGE = "tmdb_language"
-DEFAULT_LANGUAGE = "en-US"
+from arrr.services.settings import TMDB_KEY, TMDB_LANGUAGE, SettingsStore, tmdb_config
 
 router = APIRouter(
     prefix="/api/v1/settings", tags=["settings"], dependencies=[Depends(require_api_key)]
@@ -26,20 +24,19 @@ class MetadataSettingsOut(BaseModel):
     tmdb_language: str
 
 
-def effective_tmdb_key(request: Request) -> str | None:
-    store: SettingsStore = request.app.state.settings_store
-    return store.get(TMDB_KEY) or request.app.state.settings.tmdb_api_key
+class KeyTestResult(BaseModel):
+    ok: bool
+    error: str | None = None
+
+
+def _config(request: Request) -> tuple[str | None, str, str | None]:
+    return tmdb_config(request.app.state.settings_store, request.app.state.settings.tmdb_api_key)
 
 
 def _out(request: Request) -> MetadataSettingsOut:
-    store: SettingsStore = request.app.state.settings_store
-    source = "settings" if store.get(TMDB_KEY) else None
-    if source is None and request.app.state.settings.tmdb_api_key:
-        source = "env"
+    key, language, source = _config(request)
     return MetadataSettingsOut(
-        has_tmdb_api_key=source is not None,
-        tmdb_key_source=source,
-        tmdb_language=store.get(TMDB_LANGUAGE) or DEFAULT_LANGUAGE,
+        has_tmdb_api_key=key is not None, tmdb_key_source=source, tmdb_language=language
     )
 
 
@@ -56,3 +53,18 @@ def put_metadata_settings(body: MetadataSettingsIn, request: Request) -> Metadat
     if body.tmdb_language is not None:
         store.set(TMDB_LANGUAGE, body.tmdb_language)
     return _out(request)
+
+
+@router.post("/metadata/test")
+async def test_metadata_settings(request: Request) -> KeyTestResult:
+    key, language, _ = _config(request)
+    if key is None:
+        return KeyTestResult(ok=False, error="TMDB API key is not configured")
+    client = TmdbClient(key, language)
+    try:
+        await client.test()
+        return KeyTestResult(ok=True)
+    except MetadataError as exc:
+        return KeyTestResult(ok=False, error=str(exc))
+    finally:
+        await client.aclose()
