@@ -1,15 +1,15 @@
 services:
-  arrr:
+  aarr:
     build: .
-    container_name: arrr
+    container_name: aarr
     # Match the owner of your media files so hardlinks/imports work.
     user: "${PUID:-1000}:${PGID:-1000}"
     environment:
       - TZ=${TZ:-UTC}
     ports:
-      - "${ARRR_PORT:-8686}:8686"
+      - "${AARR_PORT:-8686}:8686"
     volumes:
-      - ${CONFIG_DIR:-./data}/arrr:/config
+      - ${CONFIG_DIR:-./data}/aarr:/config
       # Same /data root as the download client, so imports can hardlink.
       - ${MEDIA_DIR:-./media}:/data
     restart: unless-stopped

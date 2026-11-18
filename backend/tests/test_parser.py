@@ -2,7 +2,7 @@ from datetime import date
 
 import pytest
 
-from arrr.services.parser import Source, parse_release
+from aarr.services.parser import Source, parse_release
 
 
 @pytest.mark.parametrize(

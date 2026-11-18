@@ -1,4 +1,4 @@
-# arrr - Implementation Plan
+# aarr - Implementation Plan
 
 See [FEATURES.md](FEATURES.md) for scope and phases.
 
@@ -12,10 +12,10 @@ See [FEATURES.md](FEATURES.md) for scope and phases.
 ## Layout
 
 ```
-arrr/
+aarr/
   backend/
     pyproject.toml
-    src/arrr/
+    src/aarr/
       main.py          # FastAPI app factory
       config.py        # settings (env / data dir)
       db.py            # engine, session
@@ -54,7 +54,7 @@ arrr/
 - Release parser (title -> quality, source, codec, group, season/episode)
 
 ### M3 - Metadata and library (done)
-- TMDB provider (movie + series lookup); the key and language are set via the settings API (or `ARRR_TMDB_API_KEY`)
+- TMDB provider (movie + series lookup); the key and language are set via the settings API (or `AARR_TMDB_API_KEY`)
 - Models: Movie, Series, Season, Episode, QualityProfile (3 seeded defaults), RootFolder
 - CRUD APIs for adding / monitoring items; series monitor rules `all` / `future` / `none`
 - Alembic migrations apply on startup; `tests/test_migrations.py` fails if models and migrations drift

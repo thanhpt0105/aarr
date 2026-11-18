@@ -2,8 +2,8 @@ from alembic.autogenerate import compare_metadata
 from alembic.migration import MigrationContext
 from sqlalchemy import inspect
 
-from arrr import models  # noqa: F401
-from arrr.db import Base, Database
+from aarr import models  # noqa: F401
+from aarr.db import Base, Database
 
 
 def test_migrations_create_schema_matching_models(tmp_path):

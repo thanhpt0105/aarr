@@ -30,7 +30,7 @@ def test_secret_is_encrypted_at_rest(authed):
     authed.post("/api/v1/download-clients", json=BODY)
     from sqlalchemy import select
 
-    from arrr.models import DownloadClientConfig
+    from aarr.models import DownloadClientConfig
 
     db = authed.app.state.db
     row = next(db.session()).scalar(select(DownloadClientConfig))

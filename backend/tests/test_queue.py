@@ -25,7 +25,7 @@ def _mock_qbit():
                     "state": "stalledUP",
                     "progress": 1.0,
                     "size": 10,
-                    "category": "arrr-tv",
+                    "category": "aarr-tv",
                     "content_path": "/downloads/Show",
                 }
             ],

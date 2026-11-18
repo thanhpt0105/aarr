@@ -1,6 +1,6 @@
-# arrr - Features
+# aarr - Features
 
-arrr is a standalone app combining the roles of Sonarr, Radarr, Bazarr, Prowlarr, and Seerr. It talks to external download clients (qBittorrent, SABnzbd) and hands finished media to a media server (Jellyfin).
+aarr is a standalone app combining the roles of Sonarr, Radarr, Bazarr, Prowlarr, and Seerr. It talks to external download clients (qBittorrent, SABnzbd) and hands finished media to a media server (Jellyfin).
 
 Legend: **MVP** = first release, **v2** = after MVP, **later** = optional / needs a decision.
 

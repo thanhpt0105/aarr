@@ -4,7 +4,7 @@ import httpx
 import pytest
 import respx
 
-from arrr.metadata.tmdb import BASE_URL
+from aarr.metadata.tmdb import BASE_URL
 
 MOVIES = "/api/v1/movies"
 DETAILS = {
@@ -90,7 +90,7 @@ def test_added_at_is_stored_as_utc(lib):
     lib.post(MOVIES, json=lib.lib["body"])
     from sqlalchemy import select
 
-    from arrr.models import Movie
+    from aarr.models import Movie
 
     with lib.app.state.db.open_session() as s:
         movie = s.scalar(select(Movie))

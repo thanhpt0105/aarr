@@ -26,7 +26,7 @@ def test_create_list_get_hides_key(authed):
 def test_key_encrypted_at_rest(authed):
     from sqlalchemy import select
 
-    from arrr.models import IndexerConfig
+    from aarr.models import IndexerConfig
 
     authed.post("/api/v1/indexers", json=BODY)
     row = next(authed.app.state.db.session()).scalar(select(IndexerConfig))

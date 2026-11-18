@@ -1,6 +1,6 @@
 import pytest
 
-from arrr.services.naming import movie_folder_name, safe_name
+from aarr.services.naming import movie_folder_name, safe_name
 
 
 @pytest.mark.parametrize(

@@ -4,7 +4,7 @@ import httpx
 import pytest
 import respx
 
-from arrr.metadata.tmdb import BASE_URL
+from aarr.metadata.tmdb import BASE_URL
 
 SERIES = "/api/v1/series"
 TV_ID = 5
@@ -249,7 +249,7 @@ def test_update_delete_cascade_and_in_use(lib):
 
     from sqlalchemy import func, select
 
-    from arrr.models import Episode, Season
+    from aarr.models import Episode, Season
 
     with lib.app.state.db.open_session() as session:
         assert session.scalar(select(func.count()).select_from(Episode)) == 0

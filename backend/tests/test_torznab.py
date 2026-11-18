@@ -2,8 +2,8 @@ import httpx
 import pytest
 import respx
 
-from arrr.indexers.models import IndexerError, SearchQuery
-from arrr.indexers.torznab import TorznabClient
+from aarr.indexers.models import IndexerError, SearchQuery
+from aarr.indexers.torznab import TorznabClient
 
 URL = "http://idx.test/api"
 

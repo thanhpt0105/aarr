@@ -4,8 +4,8 @@ import httpx
 import pytest
 import respx
 
-from arrr.metadata.models import MetadataError, MetadataNotFound
-from arrr.metadata.tmdb import BASE_URL, TmdbClient, poster_url
+from aarr.metadata.models import MetadataError, MetadataNotFound
+from aarr.metadata.tmdb import BASE_URL, TmdbClient, poster_url
 
 JWT = "eyJhbGciOiJIUzI1NiJ9." + "a" * 40 + ".sig"
 

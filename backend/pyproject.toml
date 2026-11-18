@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "arrr"
+name = "aarr"
 version = "0.1.0"
 description = "Standalone media automation: movies, TV, subtitles, indexers, requests"
 requires-python = ">=3.12"
@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [project.scripts]
-arrr = "arrr.main:run"
+aarr = "aarr.main:run"
 
 [project.optional-dependencies]
 dev = [
@@ -31,7 +31,7 @@ dev = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/arrr"]
+packages = ["src/aarr"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -41,7 +41,7 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
-extend-exclude = ["src/arrr/migrations/versions"]
+extend-exclude = ["src/aarr/migrations/versions"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]

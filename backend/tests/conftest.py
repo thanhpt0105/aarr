@@ -1,8 +1,8 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from arrr.config import Settings
-from arrr.main import create_app
+from aarr.config import Settings
+from aarr.main import create_app
 
 
 @pytest.fixture

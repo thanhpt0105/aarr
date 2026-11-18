@@ -2,8 +2,8 @@ import httpx
 import pytest
 import respx
 
-from arrr.clients.base import DownloadClientError, DownloadState
-from arrr.clients.sabnzbd import SabnzbdClient
+from aarr.clients.base import DownloadClientError, DownloadState
+from aarr.clients.sabnzbd import SabnzbdClient
 
 BASE = "http://sab:8080"
 API = f"{BASE}/api"

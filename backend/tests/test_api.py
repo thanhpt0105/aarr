@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from arrr.security import Secrets
+from aarr.security import Secrets
 
 
 def test_health_is_public(client):

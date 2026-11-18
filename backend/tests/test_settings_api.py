@@ -28,7 +28,7 @@ def test_set_key_and_language_never_returns_key(authed):
 def test_key_is_encrypted_at_rest(authed):
     from sqlalchemy import select
 
-    from arrr.models import AppSetting
+    from aarr.models import AppSetting
 
     authed.put("/api/v1/settings/metadata", json={"tmdb_api_key": "secret-key"})
     with authed.app.state.db.open_session() as s:
@@ -47,8 +47,8 @@ def test_omit_keeps_and_empty_clears(authed):
 def test_env_key_is_fallback(tmp_path):
     from fastapi.testclient import TestClient
 
-    from arrr.config import Settings
-    from arrr.main import create_app
+    from aarr.config import Settings
+    from aarr.main import create_app
 
     app = create_app(Settings(data_dir=tmp_path, queue_poll_seconds=0, tmdb_api_key="env-key"))
     with TestClient(app) as c:

@@ -1,7 +1,7 @@
 import httpx
 import respx
 
-from arrr.metadata.tmdb import BASE_URL
+from aarr.metadata.tmdb import BASE_URL
 
 
 def configure(authed, key="k"):

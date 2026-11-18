@@ -2,8 +2,8 @@ import httpx
 import pytest
 import respx
 
-from arrr.clients.base import DownloadClientError, DownloadState
-from arrr.clients.qbittorrent import QBittorrentClient, _magnet_hash
+from aarr.clients.base import DownloadClientError, DownloadState
+from aarr.clients.qbittorrent import QBittorrentClient, _magnet_hash
 
 BASE = "http://qbit:8080"
 HASH = "a" * 40

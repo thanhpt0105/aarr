@@ -1,6 +1,6 @@
 from types import SimpleNamespace as M
 
-from arrr.services.paths import map_path
+from aarr.services.paths import map_path
 
 CLIENT = {"name": "qbit", "type": "qbittorrent", "url": "http://qbit:8080"}
 
