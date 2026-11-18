@@ -52,6 +52,7 @@ def test_search_movie_and_tv(authed):
         "year": 2020,
         "overview": "",
         "poster_url": "https://image.tmdb.org/t/p/w342/m.jpg",
+        "library_id": None,
     }
     assert movie.call_count == 1 and tv.call_count == 0
 

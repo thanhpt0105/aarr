@@ -3,8 +3,18 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException, Request, status
 
+from arrr.metadata.models import MetadataError, MetadataNotFound
 from arrr.metadata.tmdb import TmdbClient
 from arrr.services.settings import tmdb_config
+
+
+def metadata_http_error(exc: MetadataError) -> HTTPException:
+    code = (
+        status.HTTP_404_NOT_FOUND
+        if isinstance(exc, MetadataNotFound)
+        else status.HTTP_502_BAD_GATEWAY
+    )
+    return HTTPException(code, str(exc))
 
 
 async def get_tmdb(request: Request) -> AsyncIterator[TmdbClient]:
