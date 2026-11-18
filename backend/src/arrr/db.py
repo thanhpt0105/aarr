@@ -17,6 +17,8 @@ class Database:
         self._sessions = sessionmaker(self.engine, expire_on_commit=False)
 
     def create_all(self) -> None:
+        from arrr import models  # noqa: F401  (registers tables on Base)
+
         Base.metadata.create_all(self.engine)
 
     def session(self) -> Iterator[Session]:
