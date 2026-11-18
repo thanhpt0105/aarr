@@ -33,30 +33,32 @@ arrr/
 
 ## Milestones
 
-### M0 - Foundation
+### M0 - Foundation (done)
 - Project scaffold, settings, SQLite + Alembic, health endpoint, API-key auth
 - Credential encryption helper
 - Scheduler wiring and job registry
 - CI-style local checks: pytest, ruff
 - Docker: multi-stage image (non-root, `/config` volume, healthcheck) and example `docker-compose.yml`; every milestone must keep the image building
 
-### M1 - Download clients
+### M1 - Download clients (done)
 - `DownloadClient` interface: `test()`, `add(release, category)`, `queue()`, `remove(id)`
 - qBittorrent adapter (cookie auth, categories, torrent state mapping)
 - SABnzbd adapter (API key, queue + history)
 - Client config CRUD API; remote path mapping
 - Queue poller job storing normalized queue items
 
-### M2 - Indexers and search
+### M2 - Indexers and search (done)
 - Torznab / Newznab client with caps and category parsing
 - Indexer config CRUD with test
 - Aggregated search returning normalized `Release` objects
 - Release parser (title -> quality, source, codec, group, season/episode)
 
-### M3 - Metadata and library
-- TMDB provider (movie + series lookup)
-- Models: Movie, Series, Season, Episode, QualityProfile, RootFolder
-- CRUD APIs for adding / monitoring items
+### M3 - Metadata and library (done)
+- TMDB provider (movie + series lookup); the key and language are set via the settings API (or `ARRR_TMDB_API_KEY`)
+- Models: Movie, Series, Season, Episode, QualityProfile (3 seeded defaults), RootFolder
+- CRUD APIs for adding / monitoring items; series monitor rules `all` / `future` / `none`
+- Alembic migrations apply on startup; `tests/test_migrations.py` fails if models and migrations drift
+- Deferred: keyless providers (IMDb datasets, TVmaze) behind the same metadata layer
 
 ### M4 - Decision, grab, import
 - Decision engine: profile match, size limits, scoring, rejections with reasons
