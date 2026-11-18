@@ -6,10 +6,12 @@ from fastapi import FastAPI
 
 from arrr import __version__
 from arrr.api import download_clients, indexers, path_mappings, queue, search, system
+from arrr.api import settings as settings_api
 from arrr.config import Settings
 from arrr.db import Database
 from arrr.security import Secrets
 from arrr.services.queue import QueueCache, poll_queues
+from arrr.services.settings import SettingsStore
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -40,12 +42,14 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.state.db = Database(settings.data_dir / "arrr.db")
     app.state.secrets = Secrets(settings.data_dir)
     app.state.queue_cache = QueueCache()
+    app.state.settings_store = SettingsStore(app.state.db, app.state.secrets)
     app.include_router(system.router)
     app.include_router(download_clients.router)
     app.include_router(indexers.router)
     app.include_router(path_mappings.router)
     app.include_router(queue.router)
     app.include_router(search.router)
+    app.include_router(settings_api.router)
     return app
 
 

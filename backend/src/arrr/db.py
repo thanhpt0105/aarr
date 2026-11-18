@@ -35,3 +35,7 @@ class Database:
     def session(self) -> Iterator[Session]:
         with self._sessions() as session:
             yield session
+
+    def open_session(self) -> Session:
+        """A session for use as a context manager outside request handling."""
+        return self._sessions()
