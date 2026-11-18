@@ -1,3 +1,4 @@
+import os
 import secrets
 from collections.abc import Callable
 from pathlib import Path
@@ -10,7 +11,9 @@ def _load_or_create(path: Path, generate: Callable[[], str]) -> str:
     if path.exists():
         return path.read_text().strip()
     value = generate()
-    path.write_text(value)
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "w") as f:
+        f.write(value)
     return value
 
 
