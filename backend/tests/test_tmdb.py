@@ -46,11 +46,19 @@ async def test_search_movies(tmdb):
     route = respx.get(f"{BASE_URL}/search/movie").mock(
         return_value=httpx.Response(
             200,
-            json={"results": [
-                {"id": 27205, "title": "Inception", "original_title": "Inception",
-                 "release_date": "2010-07-15", "overview": "Dreams.", "poster_path": "/p.jpg"},
-                {"id": 1, "title": "No Date", "original_title": "No Date", "release_date": ""},
-            ]},
+            json={
+                "results": [
+                    {
+                        "id": 27205,
+                        "title": "Inception",
+                        "original_title": "Inception",
+                        "release_date": "2010-07-15",
+                        "overview": "Dreams.",
+                        "poster_path": "/p.jpg",
+                    },
+                    {"id": 1, "title": "No Date", "original_title": "No Date", "release_date": ""},
+                ]
+            },
         )
     )
     hits = await tmdb.search_movies("inception", year=2010)
@@ -67,8 +75,17 @@ async def test_search_series_uses_tv_fields(tmdb):
     route = respx.get(f"{BASE_URL}/search/tv").mock(
         return_value=httpx.Response(
             200,
-            json={"results": [{"id": 5, "name": "Show", "original_name": "Orig",
-                               "first_air_date": "2019-03-01", "overview": ""}]},
+            json={
+                "results": [
+                    {
+                        "id": 5,
+                        "name": "Show",
+                        "original_name": "Orig",
+                        "first_air_date": "2019-03-01",
+                        "overview": "",
+                    }
+                ]
+            },
         )
     )
     [hit] = await tmdb.search_series("show", year=2019)
@@ -82,28 +99,49 @@ async def test_movie_details_picks_earliest_release_per_kind(tmdb):
         return_value=httpx.Response(
             200,
             json={
-                "id": 27205, "imdb_id": "tt1375666", "title": "Inception",
-                "original_title": "Inception", "release_date": "2010-07-16",
-                "overview": "x", "poster_path": "/p.jpg", "status": "Released", "runtime": 148,
-                "release_dates": {"results": [
-                    {"iso_3166_1": "US", "release_dates": [
-                        {"type": 3, "release_date": "2010-07-16T00:00:00.000Z"},
-                        {"type": 4, "release_date": "2010-12-07T00:00:00.000Z"},
-                        {"type": 5, "release_date": "2010-12-07T00:00:00.000Z"},
-                    ]},
-                    {"iso_3166_1": "FR", "release_dates": [
-                        {"type": 3, "release_date": "2010-07-21T00:00:00.000Z"},
-                        {"type": 4, "release_date": "2010-11-30T00:00:00.000Z"},
-                        {"type": 1, "release_date": "2010-07-01T00:00:00.000Z"},  # premiere ignored
-                        {"type": 5, "release_date": ""},
-                    ]},
-                ]},
+                "id": 27205,
+                "imdb_id": "tt1375666",
+                "title": "Inception",
+                "original_title": "Inception",
+                "release_date": "2010-07-16",
+                "overview": "x",
+                "poster_path": "/p.jpg",
+                "status": "Released",
+                "runtime": 148,
+                "release_dates": {
+                    "results": [
+                        {
+                            "iso_3166_1": "US",
+                            "release_dates": [
+                                {"type": 3, "release_date": "2010-07-16T00:00:00.000Z"},
+                                {"type": 4, "release_date": "2010-12-07T00:00:00.000Z"},
+                                {"type": 5, "release_date": "2010-12-07T00:00:00.000Z"},
+                            ],
+                        },
+                        {
+                            "iso_3166_1": "FR",
+                            "release_dates": [
+                                {"type": 3, "release_date": "2010-07-21T00:00:00.000Z"},
+                                {"type": 4, "release_date": "2010-11-30T00:00:00.000Z"},
+                                {
+                                    "type": 1,
+                                    "release_date": "2010-07-01T00:00:00.000Z",
+                                },  # premiere ignored
+                                {"type": 5, "release_date": ""},
+                            ],
+                        },
+                    ]
+                },
             },
         )
     )
     m = await tmdb.movie(27205)
     assert (m.imdb_id, m.title, m.year, m.runtime, m.status) == (
-        "tt1375666", "Inception", 2010, 148, "Released",
+        "tt1375666",
+        "Inception",
+        2010,
+        148,
+        "Released",
     )
     assert m.in_cinemas == date(2010, 7, 16)
     assert m.digital_release == date(2010, 11, 30)
@@ -128,8 +166,13 @@ async def test_series_and_episodes(tmdb):
         return_value=httpx.Response(
             200,
             json={
-                "id": 5, "name": "Show", "original_name": "Show", "first_air_date": "2019-03-01",
-                "overview": "o", "poster_path": None, "status": "Returning Series",
+                "id": 5,
+                "name": "Show",
+                "original_name": "Show",
+                "first_air_date": "2019-03-01",
+                "overview": "o",
+                "poster_path": None,
+                "status": "Returning Series",
                 "external_ids": {"imdb_id": "tt1", "tvdb_id": 99},
                 "seasons": [
                     {"season_number": 0, "episode_count": 2, "air_date": None},
@@ -141,10 +184,12 @@ async def test_series_and_episodes(tmdb):
     respx.get(f"{BASE_URL}/tv/5/season/1").mock(
         return_value=httpx.Response(
             200,
-            json={"episodes": [
-                {"episode_number": 1, "name": "Pilot", "air_date": "2019-03-01", "runtime": 45},
-                {"episode_number": 2, "name": "TBA", "air_date": None, "runtime": 0},
-            ]},
+            json={
+                "episodes": [
+                    {"episode_number": 1, "name": "Pilot", "air_date": "2019-03-01", "runtime": 45},
+                    {"episode_number": 2, "name": "TBA", "air_date": None, "runtime": 0},
+                ]
+            },
         )
     )
     s = await tmdb.series(5)
@@ -154,7 +199,8 @@ async def test_series_and_episodes(tmdb):
 
     eps = await tmdb.season_episodes(5, 1)
     assert [(e.season_number, e.episode_number, e.title) for e in eps] == [
-        (1, 1, "Pilot"), (1, 2, "TBA"),
+        (1, 1, "Pilot"),
+        (1, 2, "TBA"),
     ]
     assert eps[0].air_date == date(2019, 3, 1) and eps[0].runtime == 45
     assert eps[1].air_date is None and eps[1].runtime is None

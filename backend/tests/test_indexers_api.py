@@ -42,7 +42,9 @@ def test_duplicate_update_delete(authed):
     resp = authed.put(f"/api/v1/indexers/{iid}", json=update)
     assert resp.status_code == 200
     assert (resp.json()["name"], resp.json()["priority"], resp.json()["has_api_key"]) == (
-        "renamed", 5, True,
+        "renamed",
+        5,
+        True,
     )
 
     assert authed.delete(f"/api/v1/indexers/{iid}").status_code == 204
@@ -61,8 +63,11 @@ def test_test_saved_and_unsaved(authed):
 
     saved = authed.post(f"/api/v1/indexers/{iid}/test").json()
     assert saved == {
-        "ok": True, "title": "Idx", "search_modes": ["search", "tv-search"],
-        "category_count": 1, "error": None,
+        "ok": True,
+        "title": "Idx",
+        "search_modes": ["search", "tv-search"],
+        "category_count": 1,
+        "error": None,
     }
     assert route.calls.last.request.url.params["apikey"] == "k"
     assert authed.post("/api/v1/indexers/test", json=BODY).json()["ok"] is True

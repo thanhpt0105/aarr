@@ -80,6 +80,4 @@ async def search(
         limit=limit,
     )
     result = await search_all(request.app.state.db, request.app.state.secrets, query, indexer_id)
-    return SearchOut(
-        releases=[_release_out(r) for r in result.releases], errors=result.errors
-    )
+    return SearchOut(releases=[_release_out(r) for r in result.releases], errors=result.errors)

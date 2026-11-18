@@ -18,8 +18,17 @@ def _mock_qbit():
     respx.get("http://qbit:8080/api/v2/torrents/info").mock(
         return_value=httpx.Response(
             200,
-            json=[{"hash": "h", "name": "Show", "state": "stalledUP", "progress": 1.0,
-                   "size": 10, "category": "arrr-tv", "content_path": "/downloads/Show"}],
+            json=[
+                {
+                    "hash": "h",
+                    "name": "Show",
+                    "state": "stalledUP",
+                    "progress": 1.0,
+                    "size": 10,
+                    "category": "arrr-tv",
+                    "content_path": "/downloads/Show",
+                }
+            ],
         )
     )
 

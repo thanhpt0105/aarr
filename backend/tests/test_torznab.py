@@ -106,8 +106,15 @@ async def test_search_sends_expected_params(client):
     )
     p = route.calls.last.request.url.params
     assert dict(p) == {
-        "t": "tvsearch", "q": "show", "season": "2", "ep": "5", "tvdbid": "99",
-        "cat": "5000,5040", "limit": "50", "extended": "1", "apikey": "key",
+        "t": "tvsearch",
+        "q": "show",
+        "season": "2",
+        "ep": "5",
+        "tvdbid": "99",
+        "cat": "5000,5040",
+        "limit": "50",
+        "extended": "1",
+        "apikey": "key",
     }
 
 

@@ -67,7 +67,9 @@ def test_aggregates_sorts_dedupes_and_parses(authed):
     top = data["releases"][0]
     assert top["parsed"]["title"] == "Show"
     assert (top["parsed"]["season"], top["parsed"]["episodes"], top["parsed"]["resolution"]) == (
-        1, [1], 720,
+        1,
+        [1],
+        720,
     )
     assert top["parsed"]["source"] == "hdtv" and top["parsed"]["codec"] == "x264"
 

@@ -41,23 +41,55 @@ async def test_queue_combines_queue_and_history(client):
     respx.get(API, params={"mode": "queue"}).mock(
         return_value=httpx.Response(
             200,
-            json={"queue": {"slots": [
-                {"nzo_id": "q1", "filename": "Show.S01E01", "status": "Downloading",
-                 "percentage": "50", "mb": "100.0", "cat": "tv"},
-                {"nzo_id": "q2", "filename": "Other", "status": "Paused",
-                 "percentage": "0", "mb": "10.0", "cat": "movies"},
-            ]}},
+            json={
+                "queue": {
+                    "slots": [
+                        {
+                            "nzo_id": "q1",
+                            "filename": "Show.S01E01",
+                            "status": "Downloading",
+                            "percentage": "50",
+                            "mb": "100.0",
+                            "cat": "tv",
+                        },
+                        {
+                            "nzo_id": "q2",
+                            "filename": "Other",
+                            "status": "Paused",
+                            "percentage": "0",
+                            "mb": "10.0",
+                            "cat": "movies",
+                        },
+                    ]
+                }
+            },
         )
     )
     respx.get(API, params={"mode": "history"}).mock(
         return_value=httpx.Response(
             200,
-            json={"history": {"slots": [
-                {"nzo_id": "h1", "name": "Done", "status": "Completed",
-                 "bytes": 500, "category": "tv", "storage": "/data/done"},
-                {"nzo_id": "h2", "name": "Bad", "status": "Failed",
-                 "bytes": 500, "category": "tv", "storage": "/data/bad"},
-            ]}},
+            json={
+                "history": {
+                    "slots": [
+                        {
+                            "nzo_id": "h1",
+                            "name": "Done",
+                            "status": "Completed",
+                            "bytes": 500,
+                            "category": "tv",
+                            "storage": "/data/done",
+                        },
+                        {
+                            "nzo_id": "h2",
+                            "name": "Bad",
+                            "status": "Failed",
+                            "bytes": 500,
+                            "category": "tv",
+                            "storage": "/data/bad",
+                        },
+                    ]
+                }
+            },
         )
     )
     items = await client.queue("tv")

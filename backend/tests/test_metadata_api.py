@@ -24,8 +24,17 @@ def test_search_movie_and_tv(authed):
     movie = respx.get(f"{BASE_URL}/search/movie").mock(
         return_value=httpx.Response(
             200,
-            json={"results": [{"id": 1, "title": "M", "original_title": "M",
-                               "release_date": "2020-01-02", "poster_path": "/m.jpg"}]},
+            json={
+                "results": [
+                    {
+                        "id": 1,
+                        "title": "M",
+                        "original_title": "M",
+                        "release_date": "2020-01-02",
+                        "poster_path": "/m.jpg",
+                    }
+                ]
+            },
         )
     )
     tv = respx.get(f"{BASE_URL}/search/tv").mock(
@@ -36,8 +45,13 @@ def test_search_movie_and_tv(authed):
 
     [hit] = authed.get("/api/v1/metadata/search", params={"q": "m"}).json()
     assert hit == {
-        "tmdb_id": 1, "media_type": "movie", "title": "M", "original_title": "M", "year": 2020,
-        "overview": "", "poster_url": "https://image.tmdb.org/t/p/w342/m.jpg",
+        "tmdb_id": 1,
+        "media_type": "movie",
+        "title": "M",
+        "original_title": "M",
+        "year": 2020,
+        "overview": "",
+        "poster_url": "https://image.tmdb.org/t/p/w342/m.jpg",
     }
     assert movie.call_count == 1 and tv.call_count == 0
 
@@ -47,9 +61,7 @@ def test_search_movie_and_tv(authed):
 
 @respx.mock
 def test_search_uses_configured_language(authed):
-    authed.put(
-        "/api/v1/settings/metadata", json={"tmdb_api_key": "k", "tmdb_language": "vi-VN"}
-    )
+    authed.put("/api/v1/settings/metadata", json={"tmdb_api_key": "k", "tmdb_language": "vi-VN"})
     route = respx.get(f"{BASE_URL}/search/movie").mock(
         return_value=httpx.Response(200, json={"results": []})
     )
@@ -76,7 +88,8 @@ def test_validates_parameters(authed):
 @respx.mock
 def test_settings_key_test_endpoint(authed):
     assert authed.post("/api/v1/settings/metadata/test").json() == {
-        "ok": False, "error": "TMDB API key is not configured",
+        "ok": False,
+        "error": "TMDB API key is not configured",
     }
     configure(authed)
     respx.get(f"{BASE_URL}/authentication").mock(return_value=httpx.Response(401))

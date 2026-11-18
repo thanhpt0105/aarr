@@ -66,12 +66,33 @@ async def test_queue_maps_states(client):
         return_value=httpx.Response(
             200,
             json=[
-                {"hash": "1", "name": "a", "state": "downloading", "progress": 0.5,
-                 "size": 100, "category": "sonarr", "content_path": "/data/a"},
-                {"hash": "2", "name": "b", "state": "stalledUP", "progress": 1.0,
-                 "size": 200, "category": "sonarr", "content_path": "/data/b"},
-                {"hash": "3", "name": "c", "state": "error", "progress": 0.1,
-                 "size": 300, "category": "sonarr", "content_path": "/data/c"},
+                {
+                    "hash": "1",
+                    "name": "a",
+                    "state": "downloading",
+                    "progress": 0.5,
+                    "size": 100,
+                    "category": "sonarr",
+                    "content_path": "/data/a",
+                },
+                {
+                    "hash": "2",
+                    "name": "b",
+                    "state": "stalledUP",
+                    "progress": 1.0,
+                    "size": 200,
+                    "category": "sonarr",
+                    "content_path": "/data/b",
+                },
+                {
+                    "hash": "3",
+                    "name": "c",
+                    "state": "error",
+                    "progress": 0.1,
+                    "size": 300,
+                    "category": "sonarr",
+                    "content_path": "/data/c",
+                },
             ],
         )
     )
