@@ -14,6 +14,7 @@ from arrr.api import (
     path_mappings,
     queue,
     search,
+    series,
     system,
 )
 from arrr.api import settings as settings_api
@@ -60,6 +61,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(library_settings.profiles_router)
     app.include_router(library_settings.folders_router)
     app.include_router(movies.router)
+    app.include_router(series.router)
     app.include_router(path_mappings.router)
     app.include_router(queue.router)
     app.include_router(search.router)

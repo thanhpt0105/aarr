@@ -8,7 +8,7 @@ from arrr.api.deps import SessionDep
 from arrr.api.tmdb_dep import TmdbDep, metadata_http_error
 from arrr.metadata.models import MediaType, MetadataError
 from arrr.metadata.tmdb import poster_url
-from arrr.models import Movie
+from arrr.models import Movie, Series
 from arrr.security import require_api_key
 
 router = APIRouter(
@@ -45,11 +45,12 @@ async def search_metadata(
         raise metadata_http_error(exc) from exc
 
     in_library: dict[int, int] = {}
-    if type == "movie" and hits:
+    if hits:
+        model = Movie if type == "movie" else Series
         rows = session.execute(
-            select(Movie.tmdb_id, Movie.id).where(Movie.tmdb_id.in_([h.tmdb_id for h in hits]))
+            select(model.tmdb_id, model.id).where(model.tmdb_id.in_([h.tmdb_id for h in hits]))
         )
-        in_library = {tmdb_id: movie_id for tmdb_id, movie_id in rows}
+        in_library = {tmdb_id: library_id for tmdb_id, library_id in rows}
 
     return [
         HitOut(
